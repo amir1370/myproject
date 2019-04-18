@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+
+{% block title %}لیست وسایل نقلیه{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/bimebazar/vehicles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>لیست وسایل نقلیه</h1>
+    <div class="panel-group" id="accordion">
+        {% for vehicle_brand in vehicle_brands %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">
+                            {{ vehicle_brand.name }} ({{ vehicle_brand.vehicle_models.count }})
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                    {% for vehicle_model in vehicle_brand.vehicle_models.all %}
+                        <div class="panel-body">{{ vehicle_model.get_vehicle_type_display }} - {{ vehicle_model.name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
